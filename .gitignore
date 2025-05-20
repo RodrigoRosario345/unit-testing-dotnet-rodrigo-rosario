@@ -1,0 +1,41 @@
+# Build output folders
+bin/
+obj/
+artifacts/
+TestResults/
+
+# User-specific files
+*.user
+*.userprefs
+*.csproj.user
+
+# Visual Studio Code settings
+.vscode/
+.history/
+
+# Local configuration files
+launchSettings.json
+local.settings.json
+
+# NuGet packages and dependency files
+*.nupkg
+*.snupkg
+packages/
+project.assets.json
+project.lock.json
+
+# Test coverage reports
+*.coverage
+*.coveragexml
+coverage/
+
+# Temporary files and logs
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
