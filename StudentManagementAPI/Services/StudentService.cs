@@ -52,9 +52,6 @@ namespace StudentManagementAPI.Services
         public bool Delete(int ci)
         {
             var student = GetStudentByCI(ci);
-            if (student == null)
-                return false;
-
             _students.Remove(student);
             return true;
         }
@@ -66,7 +63,7 @@ namespace StudentManagementAPI.Services
 
             if (student != null)
             {
-                targetStudent = GetStudentBySelector(student, (s, st) => s.CI == st.CI);
+                targetStudent = student;
             }
             else if (ci.HasValue)
             {
@@ -75,8 +72,8 @@ namespace StudentManagementAPI.Services
             else if (!string.IsNullOrEmpty(nombre))
             {
                 targetStudent = GetStudentBySelector(nombre,
-                (s, nombreVal) => s.Nombre.Equals(nombreVal, StringComparison.OrdinalIgnoreCase),
-                nameof(nombre)
+                    (s, nombreVal) => s.Nombre.Equals(nombreVal, StringComparison.OrdinalIgnoreCase),
+                    nameof(nombre)
                 );
             }
             else
@@ -84,20 +81,16 @@ namespace StudentManagementAPI.Services
                 throw new ArgumentException("At least one parameter must be provided");
             }
 
-            return targetStudent.Nota > 51;
+            return targetStudent!.Nota > 51;
         }
 
-        /*
-        <summary>
-        Finds a student based on a selector function.
-        </summary>
-        <typeparam name="T">Type of the value to compare</typeparam>
-        <param name="value">Value to search for</param>
-        <param name="selector">Function to compare student with the value</param>
-        <param name="parameterName">Name of the parameter for error messaging</param>
-        <returns>The found student</returns>
-        <exception cref="KeyNotFoundException">Thrown when no student matches the criteria</exception>
-        */
+        // this method finds a student based on a selector function.
+        // T: Type of the value to compare
+        // value: Value to search for
+        // selector: Function to compare student with the value
+        // parameterName: Name of the parameter for error messaging
+        // returns: The found student
+        // throws KeyNotFoundException when no student matches the criteria
         public Student GetStudentBySelector<T>(T value, Func<Student, T, bool> selector, string parameterName = "CI")
         {
             var student = _students.FirstOrDefault(s => selector(s, value));
