@@ -81,7 +81,7 @@ namespace StudentManagementAPI.Services
                 throw new ArgumentException("At least one parameter must be provided");
             }
 
-            return targetStudent!.Nota > 51;
+            return targetStudent!.Nota >= 51;
         }
 
         // this method finds a student based on a selector function.

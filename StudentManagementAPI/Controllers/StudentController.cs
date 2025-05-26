@@ -22,7 +22,7 @@ namespace StudentManagementAPI.Controllers
         }
 
         [HttpGet("{ci}")]
-        public Student GetStudentById(int ci)
+        public Student GetStudentByCI(int ci)
         {
             return _studentService.GetStudentByCI(ci);
         }

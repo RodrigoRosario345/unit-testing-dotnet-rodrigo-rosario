@@ -8,12 +8,12 @@ using StudentManagementAPI.UnitTests.Utils;
 
 namespace StudentManagementAPI.UnitTests.Controllers
 {
-    public class StudentControllerTests
+    public class StudentControllerTestsUseMock
     {
         private readonly Mock<IStudentService> _mockStudentService;
         private readonly StudentController _controller;
 
-        public StudentControllerTests()
+        public StudentControllerTestsUseMock()
         {
             _mockStudentService = new Mock<IStudentService>();
             _controller = new StudentController(_mockStudentService.Object);
@@ -53,7 +53,8 @@ namespace StudentManagementAPI.UnitTests.Controllers
             Assert.Empty(returnedStudents);
         }
 
-
+        //Method that proves the existence of a student's CI, nombre and nota.
+        //thus fulfilling the case of the third or fourth requirement of the work
         [Fact]
         public void GetStudentById_ReturnsOkResult_WhenStudentExists()
         {
@@ -65,7 +66,7 @@ namespace StudentManagementAPI.UnitTests.Controllers
                 .Returns(student);
 
             // Act - When
-            var result = _controller.GetStudentById(studentCI);
+            var result = _controller.GetStudentByCI(studentCI);
 
             // Assert - Then
             var returnedStudent = Assert.IsType<Student>(result);
@@ -85,11 +86,13 @@ namespace StudentManagementAPI.UnitTests.Controllers
 
             // Act - When and Assert - Then
             var exception = Assert.Throws<KeyNotFoundException>(() =>
-                _controller.GetStudentById(studentCI));
+                _controller.GetStudentByCI(studentCI));
 
             Assert.Equal($"Student with CI {studentCI} not found", exception.Message);
         }
 
+        //Method that proves the existence of a student's CI, nombre and nota.
+        //thus fulfilling the case of the third or fourth requirement of the work
         [Fact]
         public void CreateStudent_ReturnsCreatedResult_WhenStudentIsValid()
         {
@@ -125,6 +128,8 @@ namespace StudentManagementAPI.UnitTests.Controllers
         }
 
 
+        //Method that proves the existence of a student's CI, nombre and nota.
+        //thus fulfilling the case of the third or fourth requirement of the work
         [Fact]
         public void UpdateStudent_ReturnsOkResult_WhenStudentExists()
         {
@@ -175,6 +180,7 @@ namespace StudentManagementAPI.UnitTests.Controllers
             Assert.True(returnedValue);
         }
 
+        // Method that proves the approval of a student based on their nota >= 51 using CI
         [Fact]
         public void HasApprovedByCI_ReturnsTrue_WhenStudentHasApproved()
         {
@@ -191,6 +197,7 @@ namespace StudentManagementAPI.UnitTests.Controllers
             Assert.True(result);
         }
 
+        // Method that proves the approval of a student based on their nota >= 51 using name
         [Fact]
         public void HasApprovedByName_ReturnsTrue_WhenStudentHasApproved()
         {
@@ -207,6 +214,7 @@ namespace StudentManagementAPI.UnitTests.Controllers
             Assert.True(result);
         }
 
+        // Method that proves the approval of a student based on their nota >= 51 using student object
         [Fact]
         public void HasApproved_ReturnsTrue_WhenStudentHasApproved()
         {
@@ -222,9 +230,10 @@ namespace StudentManagementAPI.UnitTests.Controllers
             // Assert - Then
             Assert.True(result);
             Assert.InRange(student.Nota, 0, 100);
-            Assert.True(student.Nota > 51);
+            Assert.True(student.Nota >= 51);
         }
 
+        // Method that proves the disapproval of a student based on their nota < 51 using student object
         [Fact]
         public void HasApproved_ReturnsFalse_WhenStudentHasNotApproved()
         {
@@ -240,7 +249,7 @@ namespace StudentManagementAPI.UnitTests.Controllers
             // Assert - Then
             Assert.False(result);
             Assert.InRange(student.Nota, 0, 100);
-            Assert.False(student.Nota > 51);
+            Assert.False(student.Nota >= 51);
         }
 
     }
